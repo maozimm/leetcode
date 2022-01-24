@@ -54,7 +54,23 @@ class SingleList {
         return nextNode;
     }
     remove(val) {
-
+        var currentNode = this.head;
+        // 删除头结点
+        if (val === this.head) {
+            if (!this.isEmpty) {
+                this.head.next = null;
+                return;
+            }
+            return;
+        }
+        while (currentNode.next.val !== val) {
+            // 删除不存在的结点
+            if (!currentNode.next) {
+                return;
+            }
+            currentNode = currentNode.next;
+        }
+        currentNode.next = currentNode.next.next;
     }
     append(element) {
         var node = new ListNode(element);
@@ -62,12 +78,54 @@ class SingleList {
         lastNode.next = node;
         return node;
     }
+    clear() {
+        this.head.next = null;
+        this.size = 0;
+    }
+    /**
+     * 删除特定的所有的元素
+     * @param {*} item 
+     */
+    removeAll(item) {
+        var temHead = new ListNode(null);
+        temHead.next = this.head;
+        var currentNode = temHead;
+        while (currentNode && currentNode.next) {
+            if (currentNode.next.val === item) {
+                currentNode.next = currentNode.next.next;
+                continue;
+            }
+            currentNode = currentNode.next;
+        }
+        return temHead.next;
+    }
+    removeAll1(val) {
+        const ret = new ListNode(null);
+        ret.next = this.head;
+        let cur = ret;
+        while(cur.next) {
+            if(cur.next.val === val) {
+                cur.next =  cur.next.next;
+                continue;
+            }
+            cur = cur.next;
+        }
+        return ret.next;
+    }
 }
 var list = new SingleList();
 list.append(1);
-list.insert(1,2);
+list.append(2);
+list.append(2);
+list.append(2);
+list.append(3);
+list.append(1);
+list.append(1);
+list.append(2);
+// list.insert(1,2);
+list.removeAll(2);
 list.display();
-console.log(list.find(1));
+// console.log(list.find(1));
 // list.add(1);
 // list.add(2);
 // list.add(3);
