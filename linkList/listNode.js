@@ -1,7 +1,7 @@
 class ListNode {
-    constructor(val) {
+    constructor(val, head) {
         this.val = val;
-        this.next = null;
+        this.next = head || null;
     }
 }
 class SingleList {
@@ -99,18 +99,29 @@ class SingleList {
         }
         return temHead.next;
     }
-    removeAll1(val) {
-        const ret = new ListNode(null);
-        ret.next = this.head;
-        let cur = ret;
-        while(cur.next) {
-            if(cur.next.val === val) {
-                cur.next =  cur.next.next;
-                continue;
+    /**
+     * 获取索引位置的val
+     * @param {*} index 索引
+     */
+    getByIndex(index) {
+        var currentNode = this.head;
+        var nowIndex = 0;
+        while (currentNode.next) {
+            if (nowIndex === index) {
+                return currentNode.val;
             }
-            cur = cur.next;
+            nowIndex ++;
+            currentNode = currentNode.next;
         }
-        return ret.next;
+        return -1;
+    }
+    /**
+     * 在链表的头结点之前插入新的结点
+     * @param {*} val 
+     */
+    addAtHead(val) {
+        var node = new ListNode(val, this.head);
+        this.head = node;
     }
 }
 var list = new SingleList();
@@ -123,8 +134,10 @@ list.append(1);
 list.append(1);
 list.append(2);
 // list.insert(1,2);
-list.removeAll(2);
+// list.removeAll(2);
+list.addAtHead('newHead')
 list.display();
+console.log(list.getByIndex(11));
 // console.log(list.find(1));
 // list.add(1);
 // list.add(2);
